@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proteínas de Seda Proyecto de Aula Bioquímica 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Nunito:wght@300;400;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --purple: #7c3aed;
+    --purple-dark: #4c1d95;
+    --purple-mid: #8b5cf6;
+    --purple-light: #c4b5fd;
+    --purple-pale: #ede9fe;
+    --pink: #ec4899;
+    --pink-light: #f9a8d4;
+    --pink-pale: #fce7f3;
+    --white: #ffffff;
+    --text: #1e1b2e;
+    --muted: #6b6784;
+    --border: rgba(124,58,237,0.15);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { font-family:'Nunito',sans-serif; background:var(--white); color:var(--text); overflow-x:hidden; }
+
+  /* NAV */
+  nav {
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    background:rgba(76,29,149,0.97); backdrop-filter:blur(12px);
+    border-bottom:2px solid var(--pink);
+    padding:0 2.5rem; display:flex; align-items:center; justify-content:space-between; height:62px;
+  }
+  .nav-logo { font-family:'Playfair Display',serif; color:var(--pink-light); font-size:1rem; letter-spacing:.04em; }
+  .nav-links { display:flex; gap:1.8rem; list-style:none; }
+  .nav-links a { color:rgba(255,255,255,.7); text-decoration:none; font-size:.82rem; letter-spacing:.08em; text-transform:uppercase; font-weight:600; transition:color .3s; }
+  .nav-links a:hover { color:var(--pink-light); }
+
+  /* HERO */
+  .hero {
+    min-height:100vh;
+    background: white;
+    display:flex; flex-direction:column; justify-content:center;
+    position:relative; overflow:hidden; padding:7rem 5rem 5rem;
+    border-bottom: 3px solid var(--pink);
+  }
+  .hero-circles { position:absolute; inset:0; pointer-events:none; }
+  .hero-circles span { position:absolute; border-radius:50%; }
+  .hero-circles span:nth-child(1) { width:500px; height:500px; top:-150px; right:-150px; background:rgba(124,58,237,.05); border:2px solid rgba(124,58,237,.1); }
+  .hero-circles span:nth-child(2) { width:280px; height:280px; bottom:40px; left:-100px; background:rgba(236,72,153,.05); border:2px solid rgba(236,72,153,.1); }
+  .hero-circles span:nth-child(3) { width:160px; height:160px; top:35%; right:22%; background:rgba(236,72,153,.04); border:1px solid rgba(236,72,153,.15); }
+  .hero-content { position:relative; z-index:1; max-width:850px; }
+  .hero-tag { display:inline-block; font-size:.72rem; letter-spacing:.2em; text-transform:uppercase; color:var(--pink); background:var(--pink-pale); border:1px solid rgba(236,72,153,.3); padding:.35rem 1rem; border-radius:20px; margin-bottom:2rem; font-weight:700; animation:fadeUp .7s ease both; }
+  .hero h1 { font-family:'Playfair Display',serif; font-size:clamp(3.5rem,8vw,6.5rem); font-weight:900; color:var(--purple-dark); line-height:1; margin-bottom:1.5rem; animation:fadeUp .7s .1s ease both; }
+  .hero h1 em { font-style:italic; color:var(--pink); display:block; }
+  .hero-sub { font-size:1.1rem; color:var(--muted); max-width:520px; line-height:1.75; animation:fadeUp .7s .2s ease both; margin-bottom:2.5rem; font-weight:400; }
+  .hero-authors { font-family:'DM Mono',monospace; font-size:.75rem; color:var(--muted); letter-spacing:.08em; animation:fadeUp .7s .3s ease both; }
+  .hero-badge { position:absolute; right:5rem; bottom:5rem; width:150px; height:150px; border-radius:50%; background:var(--purple-pale); border:2px solid var(--purple-light); display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; animation:spin 20s linear infinite; }
+  .hero-badge span { font-size:2rem; display:block; margin-bottom:.3rem; animation:spin 20s linear infinite reverse; }
+  .hero-badge p { font-size:.65rem; color:var(--purple); letter-spacing:.1em; text-transform:uppercase; font-weight:700; animation:spin 20s linear infinite reverse; }
+
+  /* SECTIONS */
+  section { padding:6rem 5rem; }
+  .section-header { display:flex; align-items:baseline; gap:1rem; margin-bottom:3.5rem; }
+  .section-num { font-family:'DM Mono',monospace; font-size:.72rem; color:var(--pink); letter-spacing:.2em; font-weight:500; }
+  .section-title { font-family:'Playfair Display',serif; font-size:clamp(1.8rem,3.5vw,2.8rem); font-weight:700; color:var(--purple-dark); border-bottom:3px solid var(--pink-light); padding-bottom:.5rem; }
+
+  /* INTRO */
+  .intro-section { background:var(--white); }
+  .intro-grid { display:grid; grid-template-columns:1.3fr 1fr; gap:4rem; align-items:start; }
+  .intro-text p { font-size:1rem; line-height:1.9; color:var(--muted); margin-bottom:1.4rem; }
+  .intro-text p strong { color:var(--purple-dark); font-weight:700; }
+  .info-cards { display:flex; flex-direction:column; gap:1rem; }
+  .info-card { background:linear-gradient(135deg,var(--purple-pale),var(--pink-pale)); border-left:4px solid var(--purple-mid); padding:1.2rem 1.5rem; border-radius:0 10px 10px 0; transition:transform .2s; }
+  .info-card:hover { transform:translateX(4px); }
+  .info-card:nth-child(even) { border-left-color:var(--pink); }
+  .info-card h4 { font-size:.7rem; letter-spacing:.15em; text-transform:uppercase; color:var(--purple); margin-bottom:.35rem; font-weight:800; }
+  .info-card:nth-child(even) h4 { color:var(--pink); }
+  .info-card p { font-size:.92rem; color:var(--text); line-height:1.5; }
+
+  /* OBTENCIÓN */
+  .obtencion-section { background:linear-gradient(135deg,var(--purple-dark) 0%,#7c1d6f 100%); }
+  .obtencion-section .section-title { color:white; border-bottom-color:var(--pink); }
+  .obtencion-section .section-num { color:var(--pink-light); }
+  .methods-grid { display:grid; grid-template-columns:1fr 1fr; gap:2rem; }
+  .method-card { background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.12); border-radius:16px; padding:2.5rem; transition:background .3s,transform .3s; }
+  .method-card:hover { background:rgba(255,255,255,.12); transform:translateY(-4px); }
+  .method-card.bio { border-color:rgba(236,72,153,.4); background:rgba(236,72,153,.08); }
+  .method-icon { font-size:2.5rem; margin-bottom:1.2rem; display:block; }
+  .method-tag { font-size:.65rem; letter-spacing:.18em; text-transform:uppercase; font-weight:800; margin-bottom:.8rem; color:var(--purple-light); }
+  .bio .method-tag { color:var(--pink-light); }
+  .method-card h3 { font-family:'Playfair Display',serif; font-size:1.4rem; color:white; margin-bottom:1rem; }
+  .method-card p { color:rgba(255,255,255,.6); line-height:1.75; font-size:.95rem; }
+  .method-card p strong { color:rgba(255,255,255,.9); }
+
+  /* ===== MOLÉCULAS ===== */
+  .molecules-section { background:var(--purple-pale); }
+  .molecules-section .section-title { color:var(--purple-dark); }
+  .molecules-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.8rem; }
+
+  .molecule-card { background:white; border-radius:20px; overflow:hidden; box-shadow:0 4px 30px rgba(124,58,237,.1); transition:transform .3s,box-shadow .3s; }
+  .molecule-card:hover { transform:translateY(-6px); box-shadow:0 12px 50px rgba(124,58,237,.2); }
+
+  .molecule-header { padding:1.8rem; text-align:center; background:linear-gradient(135deg,var(--purple) 0%,var(--purple-mid) 100%); }
+  .molecule-card:nth-child(2) .molecule-header { background:linear-gradient(135deg,var(--pink) 0%,#be185d 100%); }
+  .molecule-card:nth-child(3) .molecule-header { background:linear-gradient(135deg,#6d28d9 0%,#9d174d 100%); }
+
+  .molecule-formula { font-family:'DM Mono',monospace; font-size:1.1rem; color:rgba(255,255,255,.7); margin-bottom:.4rem; }
+  .molecule-name { font-family:'Playfair Display',serif; font-size:1.6rem; color:white; font-weight:700; }
+  .molecule-role { font-size:.65rem; letter-spacing:.12em; text-transform:uppercase; color:rgba(255,255,255,.55); margin-top:.35rem; font-weight:700; }
+
+  /* Visor de moléculas con tabs */
+  .mol-viewer { border-bottom:1px solid var(--purple-pale); }
+
+  .mol-tabs { display:flex; border-bottom:1px solid var(--purple-pale); }
+  .mol-tab {
+    flex:1; padding:.6rem; font-size:.72rem; font-weight:800;
+    letter-spacing:.08em; text-transform:uppercase; border:none;
+    background:none; cursor:pointer; color:var(--muted);
+    transition:all .2s; border-bottom:2px solid transparent;
+  }
+  .mol-tab.active { color:var(--purple); border-bottom-color:var(--purple); background:var(--purple-pale); }
+  .molecule-card:nth-child(2) .mol-tab.active { color:var(--pink); border-bottom-color:var(--pink); }
+  .molecule-card:nth-child(3) .mol-tab.active { color:#6d28d9; border-bottom-color:#6d28d9; }
+
+  .mol-view { display:none; padding:1.2rem; text-align:center; min-height:160px; align-items:center; justify-content:center; flex-direction:column; }
+  .mol-view.active { display:flex; }
+
+  /* SVG 2D structures */
+  .mol-svg { width:100%; max-width:200px; height:120px; }
+
+  /* 3D ball model */
+  .mol-3d { position:relative; width:160px; height:140px; }
+  .ball {
+    position:absolute; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'DM Mono',monospace; font-size:.55rem; color:white; font-weight:700;
+    box-shadow:inset -4px -4px 8px rgba(0,0,0,.3), inset 2px 2px 6px rgba(255,255,255,.3);
+    cursor:default;
+  }
+  .ball-C { background:radial-gradient(circle at 35% 35%, #888, #333); }
+  .ball-N { background:radial-gradient(circle at 35% 35%, #6699ff, #003399); }
+  .ball-O { background:radial-gradient(circle at 35% 35%, #ff6666, #cc0000); }
+  .ball-H { background:radial-gradient(circle at 35% 35%, #ffffff, #cccccc); color:#555; font-size:.45rem; }
+  .ball-S { background:radial-gradient(circle at 35% 35%, #ffee00, #cc9900); color:#333; }
+
+  .bond { position:absolute; background:#999; border-radius:2px; transform-origin:left center; }
+
+  .mol-legend { display:flex; gap:.8rem; flex-wrap:wrap; justify-content:center; margin-top:.8rem; }
+  .legend-item { display:flex; align-items:center; gap:.3rem; font-size:.6rem; color:var(--muted); }
+  .legend-dot { width:10px; height:10px; border-radius:50%; }
+
+  /* Molecule body props */
+  .molecule-body { padding:1.6rem; }
+  .mol-property { margin-bottom:1.1rem; padding-bottom:1.1rem; border-bottom:1px solid var(--purple-pale); }
+  .mol-property:last-child { border:none; margin:0; padding:0; }
+  .mol-prop-label { font-size:.65rem; letter-spacing:.18em; text-transform:uppercase; color:var(--purple); margin-bottom:.35rem; font-weight:800; display:flex; align-items:center; gap:.4rem; }
+  .molecule-card:nth-child(2) .mol-prop-label { color:var(--pink); }
+  .molecule-card:nth-child(3) .mol-prop-label { color:#6d28d9; }
+  .mol-prop-label::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--purple); flex-shrink:0; }
+  .molecule-card:nth-child(2) .mol-prop-label::before { background:var(--pink); }
+  .molecule-card:nth-child(3) .mol-prop-label::before { background:#6d28d9; }
+  .mol-prop-value { font-size:.88rem; color:var(--muted); line-height:1.6; }
+  .mol-prop-value strong { color:var(--text); font-weight:700; }
+
+  /* METABOLISMO */
+  .metabolismo-section { background:white; }
+  .metabolism-flow { display:flex; flex-direction:column; max-width:780px; margin:0 auto 3rem; }
+  .flow-step { display:flex; gap:2rem; align-items:flex-start; }
+  .flow-connector { display:flex; flex-direction:column; align-items:center; flex-shrink:0; width:44px; }
+  .flow-dot { width:44px; height:44px; border-radius:50%; background:linear-gradient(135deg,var(--purple),var(--pink)); display:flex; align-items:center; justify-content:center; color:white; font-family:'DM Mono',monospace; font-size:.9rem; font-weight:700; flex-shrink:0; z-index:1; box-shadow:0 4px 15px rgba(124,58,237,.35); }
+  .flow-line { width:2px; flex:1; min-height:30px; background:linear-gradient(to bottom,var(--purple-mid),var(--pink-light)); margin:0 auto; }
+  .flow-content { flex:1; padding-bottom:2.5rem; }
+  .flow-content h4 { font-family:'Playfair Display',serif; font-size:1.15rem; color:var(--purple-dark); margin-bottom:.5rem; }
+  .flow-content p { font-size:.93rem; color:var(--muted); line-height:1.8; }
+  .flow-content p strong { color:var(--purple-dark); }
+
+  /* MEJORAS */
+  .mejoras-section { background:var(--pink-pale); }
+  .mejoras-section .section-title { color:var(--purple-dark); border-bottom-color:var(--purple-light); }
+  .mejoras-grid { display:grid; grid-template-columns:1fr 1fr; gap:2rem; }
+  .problema-card,.solucion-card { background:white; border-radius:16px; padding:2rem; box-shadow:0 2px 20px rgba(0,0,0,.06); }
+  .problema-card { border-top:4px solid #f43f5e; }
+  .solucion-card { border-top:4px solid var(--purple); }
+  .card-label { font-size:.68rem; letter-spacing:.18em; text-transform:uppercase; font-weight:800; margin-bottom:1.2rem; }
+  .problema-card .card-label { color:#f43f5e; }
+  .solucion-card .card-label { color:var(--purple); }
+  .card-item { display:flex; gap:.8rem; align-items:flex-start; margin-bottom:1rem; padding-bottom:1rem; border-bottom:1px solid var(--purple-pale); }
+  .card-item:last-child { border:none; margin:0; padding:0; }
+  .card-bullet { width:8px; height:8px; border-radius:50%; margin-top:.5rem; flex-shrink:0; }
+  .problema-card .card-bullet { background:#f43f5e; }
+  .solucion-card .card-bullet { background:var(--purple); }
+  .card-item p { font-size:.9rem; color:var(--muted); line-height:1.65; }
+  .card-item p strong { color:var(--text); font-weight:700; }
+
+  /* CONCLUSIÓN */
+  .conclusion-section { background:linear-gradient(135deg,var(--purple-dark),#9d174d); text-align:center; padding:7rem 5rem; }
+  .conclusion-section .section-header { justify-content:center; border:none; }
+  .conclusion-section .section-title { color:white; border-bottom-color:var(--pink-light); }
+  .conclusion-section .section-num { color:var(--pink-light); }
+  .conclusion-text { max-width:680px; margin:0 auto 3rem; font-size:1.05rem; color:rgba(255,255,255,.7); line-height:1.9; }
+  .conclusion-quote { max-width:620px; margin:0 auto; font-family:'Playfair Display',serif; font-size:1.3rem; font-style:italic; color:var(--pink-light); line-height:1.65; padding:2.5rem; border:1px solid rgba(249,168,212,.3); border-radius:16px; background:rgba(255,255,255,.05); position:relative; }
+  .conclusion-quote::before { content:'"'; font-size:6rem; color:rgba(249,168,212,.15); position:absolute; top:-1.5rem; left:1.5rem; font-family:'Playfair Display',serif; line-height:1; }
+
+  /* REFS */
+  .refs-section { background:var(--purple-pale); padding:3rem 5rem; }
+  .refs-title { font-family:'DM Mono',monospace; font-size:.7rem; letter-spacing:.2em; text-transform:uppercase; color:var(--purple); font-weight:700; margin-bottom:1.5rem; }
+  .refs-list { display:grid; grid-template-columns:1fr 1fr; gap:.8rem; }
+  .ref-item { font-size:.78rem; color:var(--muted); line-height:1.6; padding-left:.8rem; border-left:3px solid var(--pink-light); }
+
+  /* FOOTER */
+  footer { background:var(--purple-dark); padding:1.8rem 5rem; display:flex; justify-content:space-between; align-items:center; }
+  footer p { font-family:'DM Mono',monospace; font-size:.7rem; color:rgba(255,255,255,.35); letter-spacing:.1em; }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp { from{opacity:0;transform:translateY(22px)} to{opacity:1;transform:none} }
+  @keyframes spin { to{transform:rotate(360deg)} }
+  .reveal { opacity:0; transform:translateY(22px); transition:opacity .65s ease,transform .65s ease; }
+  .reveal.visible { opacity:1; transform:none; }
+
+  @media(max-width:768px){
+    section{padding:4rem 1.5rem}
+    nav{padding:0 1.5rem}
+    .nav-links{display:none}
+    .hero{padding:5rem 1.5rem 3rem}
+    .hero-badge{display:none}
+    .intro-grid,.methods-grid,.molecules-grid,.mejoras-grid,.refs-list{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Bioquímica</div>
+  <ul class="nav-links">
+    <li><a href="#intro">Introducción</a></li>
+    <li><a href="#obtencion">Obtención</a></li>
+    <li><a href="#moleculas">Moléculas</a></li>
+    <li><a href="#metabolismo">Metabolismo</a></li>
+    <li><a href="#mejoras">Mejoras</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="inicio">
+  <div class="hero-circles"><span></span><span></span><span></span></div>
+  <div class="hero-content">
+    <div class="hero-tag">PROYECTO DE AULA · INGENIERÍA BIOTECNOLÓGICA</div>
+    <h1>Proteínas<em>de Seda</em></h1>
+    <p class="hero-sub">Producción biotecnológica de fibroína mediante <em>Escherichia coli</em>: del metabolismo molecular al biomaterial del futuro.</p>
+    <p class="hero-authors">Sofía Lopera Melán &nbsp;·&nbsp; Isabella López Jaramillo &nbsp;·&nbsp; María Carolina Ortega Vitola &nbsp;·&nbsp; Camila Vélez Hernández<br>Universidad EIA · Envigado, Colombia</p>
+  </div>
+  <div class="hero-badge"><span></span><p>EIA<br>2026-1</p></div>
+</section>
+
+<!-- INTRO -->
+<section class="intro-section" id="intro">
+  <div class="section-header reveal">
+    <span class="section-num">01</span>
+    <h2 class="section-title">¿Qué son las proteínas de seda?</h2>
+  </div>
+  <div class="intro-grid">
+    <div class="intro-text reveal">
+      <p>Las <strong>proteínas de seda</strong> son biopolímeros fibrosos de naturaleza proteica, compuestos principalmente por la <strong>fibroína</strong> proteína estructural responsable de las propiedades estructurales del hilo y la <strong>sericina</strong>, una glicoproteína de recubrimiento que se elimina durante el procesamiento de desengomado.</p>
+      <p>A nivel molecular, la fibroína se organiza en cadenas pesada y ligera unidas por <strong>puentes disulfuro</strong>. La cadena pesada contiene dominios hidrofóbicos repetitivos que favorecen la formación de <strong>láminas β antiparalelas</strong>, explicando la extraordinaria resistencia a la tensión y la rigidez característica de este material.</p>
+      <p>Entre sus propiedades más destacadas se encuentran su <strong>biocompatibilidad</strong>, su <strong>biodegradabilidad controlada</strong> mediante proteasas fisiológicas, y su versatilidad: puede conformarse en películas, hidrogeles, andamios 3D o nanopartículas.</p>
+    </div>
+    <div class="info-cards reveal">
+      <div class="info-card"><h4> Industria textil</h4><p>Resistencia mecánica excepcional, suavidad y brillo natural hacen de la seda el tejido de lujo por excelencia.</p></div>
+      <div class="info-card"><h4> Cosmética</h4><p>La fibroína actúa como agente hidratante y formador de película protectora en productos capilares y para la piel.</p></div>
+      <div class="info-card"><h4> Biomedicina</h4><p>Andamios para ingeniería de tejidos, suturas biocompatibles y sistemas de liberación controlada de fármacos.</p></div>
+      <div class="info-card"><h4> Composición</h4><p>La fibroína representa el <strong>70 – 80 %</strong> de la seda, con secuencias repetitivas Gly-Ala-Gly-Ala-Gly-Ser.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- OBTENCIÓN -->
+<section class="obtencion-section" id="obtencion">
+  <div class="section-header reveal">
+    <span class="section-num">02</span>
+    <h2 class="section-title">Métodos de obtención</h2>
+  </div>
+  <div class="methods-grid">
+    <div class="method-card reveal">
+      <span class="method-icon"></span>
+      <div class="method-tag">Método tradicional</div>
+      <h3>Sericultura</h3>
+      <p>Consiste en la cría del gusano de seda <em>Bombyx mori</em>, del cual se extrae el hilo directamente del capullo. Tiene miles de años de historia y produce seda de alta calidad, pero presenta <strong>limitaciones en escalabilidad</strong> y en el control de las propiedades del material.</p>
+    </div>
+    <div class="method-card bio reveal">
+      <span class="method-icon"></span>
+      <div class="method-tag">Método biotecnológico Principal</div>
+      <h3>Expresión recombinante en <em>E. coli</em></h3>
+      <p>Involucra la expresión de los genes de la fibroína en microorganismos como <em>Escherichia coli</em> o levaduras, que producen la proteína mediante fermentación controlada. La producción recombinante enfrenta desafíos como la carga metabólica y el estrés celular generado por la acumulación de la proteína. Adicionalmente, permite modificar la secuencia proteica para obtener materiales con <strong>propiedades específicas</strong> según la aplicación deseada, ampliando considerablemente su potencial industrial.</p>
+    </div>
+  </div>
+</section>
+
+<!-- MOLÉCULAS -->
+<section class="molecules-section" id="moleculas">
+  <div class="section-header reveal">
+    <span class="section-num">03</span>
+    <h2 class="section-title">Las tres moléculas clave</h2>
+  </div>
+  <div class="molecules-grid">
+
+    <!-- GLICINA -->
+    <div class="molecule-card reveal">
+      <div class="molecule-header">
+        <div class="molecule-formula">C₂H₅NO₂</div>
+        <div class="molecule-name">Glicina</div>
+        <div class="molecule-role">Molécula del proceso biotecnológico</div>
+      </div>
+
+      <!-- VISOR -->
+      <div class="mol-viewer">
+        <div class="mol-tabs">
+          <button class="mol-tab active" onclick="showView('gly','3d',this)"> Modelo 3D</button>
+          <button class="mol-tab" onclick="showView('gly','2d',this)"> Estructura 2D</button>
+        </div>
+        <!-- 3D -->
+        <div class="mol-view active" id="gly-3d">
+          <div class="mol-3d" style="margin:0 auto">
+            <!-- bonds -->
+            <div class="bond" style="width:38px;height:3px;left:52px;top:68px;transform:rotate(-30deg)"></div>
+            <div class="bond" style="width:34px;height:3px;left:86px;top:56px;transform:rotate(20deg)"></div>
+            <div class="bond" style="width:30px;height:3px;left:116px;top:60px;transform:rotate(-50deg)"></div>
+            <div class="bond" style="width:30px;height:3px;left:116px;top:60px;transform:rotate(-10deg)"></div>
+            <!-- atoms -->
+            <div class="ball ball-N" style="width:36px;height:36px;left:20px;top:52px">N</div>
+            <div class="ball ball-C" style="width:34px;height:34px;left:82px;top:46px">C</div>
+            <div class="ball ball-O" style="width:32px;height:32px;left:118px;top:38px">O</div>
+            <div class="ball ball-O" style="width:32px;height:32px;left:118px;top:70px">O</div>
+            <div class="ball ball-H" style="width:20px;height:20px;left:10px;top:30px">H</div>
+            <div class="ball ball-H" style="width:20px;height:20px;left:0px;top:68px">H</div>
+          </div>
+          <div class="mol-legend">
+            <div class="legend-item"><div class="legend-dot" style="background:#555"></div>C</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#3366cc"></div>N</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#cc0000"></div>O</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#ccc"></div>H</div>
+          </div>
+        </div>
+        <!-- 2D -->
+        <div class="mol-view" id="gly-2d">
+          <svg class="mol-svg" viewBox="0 0 220 100" xmlns="http://www.w3.org/2000/svg">
+            <!-- NH2 - C - COOH -->
+            <line x1="20" y1="50" x2="70" y2="50" stroke="#555" stroke-width="2"/>
+            <line x1="70" y1="50" x2="120" y2="50" stroke="#555" stroke-width="2"/>
+            <line x1="120" y1="50" x2="160" y2="25" stroke="#555" stroke-width="2"/>
+            <line x1="120" y1="50" x2="160" y2="75" stroke="#555" stroke-width="2"/>
+            <!-- double bond C=O -->
+            <line x1="120" y1="50" x2="162" y2="24" stroke="#cc0000" stroke-width="2"/>
+            <line x1="122" y1="52" x2="164" y2="26" stroke="#cc0000" stroke-width="2"/>
+            <!-- labels -->
+            <text x="2" y="54" font-family="DM Mono,monospace" font-size="13" fill="#3366cc">H₂N</text>
+            <text x="68" y="44" font-family="DM Mono,monospace" font-size="13" fill="#555">CH₂</text>
+            <text x="160" y="22" font-family="DM Mono,monospace" font-size="13" fill="#cc0000">O</text>
+            <text x="158" y="80" font-family="DM Mono,monospace" font-size="13" fill="#cc0000">OH</text>
+            <text x="108" y="44" font-family="DM Mono,monospace" font-size="11" fill="#555">C</text>
+          </svg>
+        </div>
+      </div>
+
+      <div class="molecule-body">
+        <div class="mol-property">
+          <div class="mol-prop-label">Grupos funcionales</div>
+          <div class="mol-prop-value"><strong>1 grupo amino</strong> (–NH₂) y <strong>1 grupo carboxilo</strong> (–COOH). Es el aminoácido más pequeño, sin cadena lateral.</div>
+        </div>
+        <div class="mol-property">
+          <div class="mol-prop-label">Polaridad</div>
+          <div class="mol-prop-value"><strong>Polar</strong>. Los grupos –NH₂ y –COOH generan una distribución asimétrica de cargas, con zonas de carga positiva y negativa definidas.</div>
+        </div>
+        <div class="mol-property">
+          <div class="mol-prop-label">Solubilidad en agua</div>
+          <div class="mol-prop-value"><strong>Muy soluble</strong>. En solución acuosa adopta forma <strong>zwitteriónica</strong> (–NH₃⁺ y –COO⁻), lo que permite establecer <strong>interacciones ión-dipolo</strong> con las moléculas de agua y <strong>puentes de hidrógeno</strong> a través de ambos grupos ionizados, favoreciendo fuertemente su disolución.</div>
+        </div>
+        <div class="mol-property">
+          <div class="mol-prop-label">Rol en la fibroína</div>
+          <div class="mol-prop-value">Constituye más del 70% de la secuencia. Su ausencia de cadena lateral permite el <strong>empaquetamiento compacto</strong> de láminas β estabilizadas por puentes de hidrógeno.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ALANINA -->
+    <div class="molecule-card reveal">
+      <div class="molecule-header">
+        <div class="molecule-formula">C₃H₇NO₂</div>
+        <div class="molecule-name">Alanina</div>
+        <div class="molecule-role">Molécula del proceso biotecnológico</div>
+      </div>
+
+      <div class="mol-viewer">
+        <div class="mol-tabs">
+          <button class="mol-tab active" onclick="showView('ala','3d',this)"> Modelo 3D</button>
+          <button class="mol-tab" onclick="showView('ala','2d',this)"> Estructura 2D</button>
+        </div>
+        <div class="mol-view active" id="ala-3d">
+          <div class="mol-3d" style="margin:0 auto">
+            <div class="bond" style="width:38px;height:3px;left:50px;top:68px;transform:rotate(-30deg)"></div>
+            <div class="bond" style="width:34px;height:3px;left:84px;top:55px;transform:rotate(20deg)"></div>
+            <div class="bond" style="width:30px;height:3px;left:114px;top:58px;transform:rotate(-50deg)"></div>
+            <div class="bond" style="width:30px;height:3px;left:114px;top:58px;transform:rotate(-10deg)"></div>
+            <div class="bond" style="width:30px;height:3px;left:84px;top:55px;transform:rotate(-80deg)"></div>
+            <div class="ball ball-N" style="width:36px;height:36px;left:18px;top:52px">N</div>
+            <div class="ball ball-C" style="width:34px;height:34px;left:80px;top:44px">C</div>
+            <div class="ball ball-C" style="width:28px;height:28px;left:76px;top:14px">C</div>
+            <div class="ball ball-O" style="width:32px;height:32px;left:116px;top:36px">O</div>
+            <div class="ball ball-O" style="width:32px;height:32px;left:116px;top:68px">O</div>
+            <div class="ball ball-H" style="width:20px;height:20px;left:8px;top:30px">H</div>
+            <div class="ball ball-H" style="width:20px;height:20px;left:0px;top:66px">H</div>
+          </div>
+          <div class="mol-legend">
+            <div class="legend-item"><div class="legend-dot" style="background:#555"></div>C</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#3366cc"></div>N</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#cc0000"></div>O</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#ccc"></div>H</div>
+          </div>
+        </div>
+        <div class="mol-view" id="ala-2d">
+          <svg class="mol-svg" viewBox="0 0 240 110" xmlns="http://www.w3.org/2000/svg">
+            <line x1="20" y1="60" x2="70" y2="60" stroke="#555" stroke-width="2"/>
+            <line x1="70" y1="60" x2="120" y2="60" stroke="#555" stroke-width="2"/>
+            <line x1="120" y1="60" x2="165" y2="35" stroke="#555" stroke-width="2"/>
+            <line x1="122" y1="62" x2="167" y2="37" stroke="#cc0000" stroke-width="2"/>
+            <line x1="120" y1="60" x2="165" y2="85" stroke="#555" stroke-width="2"/>
+            <line x1="120" y1="60" x2="120" y2="20" stroke="#555" stroke-width="2"/>
+            <text x="2" y="64" font-family="DM Mono,monospace" font-size="13" fill="#3366cc">H₂N</text>
+            <text x="68" y="54" font-family="DM Mono,monospace" font-size="13" fill="#555">CH</text>
+            <text x="108" y="54" font-family="DM Mono,monospace" font-size="11" fill="#555">C</text>
+            <text x="166" y="32" font-family="DM Mono,monospace" font-size="13" fill="#cc0000">O</text>
+            <text x="164" y="92" font-family="DM Mono,monospace" font-size="13" fill="#cc0000">OH</text>
+            <text x="112" y="16" font-family="DM Mono,monospace" font-size="13" fill="#555">CH₃</text>
+          </svg>
+        </div>
+      </div>
+
+      <div class="molecule-body">
+        <div class="mol-property">
+          <div class="mol-prop-label">Grupos funcionales</div>
+          <div class="mol-prop-value"><strong>1 grupo amino</strong> (–NH₂), <strong>1 grupo carboxilo</strong> (–COOH) y <strong>1 grupo metilo</strong> (–CH₃) como cadena lateral.</div>
+        </div>
+        <div class="mol-property">
+          <div class="mol-prop-label">Polaridad</div>
+          <div class="mol-prop-value"><strong>Carácter mixto</strong>. Los grupos amino y carboxilo son polares, pero el grupo metilo aporta <strong>hidrofobicidad</strong> moderada a la molécula.</div>
+        </div>
+        <div class="mol-property">
+          <div class="mol-prop-label">Solubilidad en agua</div>
+          <div class="mol-prop-value"><strong>Soluble</strong>, aunque menos que la glicina. Los grupos ionizables establecen <strong>interacciones ión-dipolo</strong> y <strong>puentes de hidrógeno</strong> con el agua; el grupo metilo genera una pequeña zona hidrofóbica que no impide su disolución.</div>
+        </div>
+        <div class="mol-property">
+          <div class="mol-prop-label">Rol en la fibroína</div>
+          <div class="mol-prop-value">Aporta <strong>interacciones hidrofóbicas</strong> que consolidan las láminas β. Se sintetiza a partir del piruvato por transaminación.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FIBROÍNA -->
+    <div class="molecule-card reveal">
+      <div class="molecule-header">
+        <div class="molecule-formula">Gly-Ala-Gly-Ala-Gly-Ser</div>
+        <div class="molecule-name">Fibroína</div>
+        <div class="molecule-role">Componente principal del producto</div>
+      </div>
+
+      <div class="mol-viewer">
+        <div class="mol-tabs">
+          <button class="mol-tab active" onclick="showView('fib','3d',this)"> Modelo 3D</button>
+          <button class="mol-tab" onclick="showView('fib','2d',this)"> Estructura 2D</button>
+        </div>
+        <div class="mol-view active" id="fib-3d">
+          <div style="position:relative;width:180px;height:130px;margin:0 auto">
+            <!-- representación simplificada de fragmento Gly-Ala -->
+            <div class="bond" style="width:25px;height:2px;left:10px;top:65px;transform:rotate(0deg)"></div>
+            <div class="bond" style="width:22px;height:2px;left:45px;top:65px;transform:rotate(-30deg)"></div>
+            <div class="bond" style="width:22px;height:2px;left:68px;top:54px;transform:rotate(30deg)"></div>
+            <div class="bond" style="width:22px;height:2px;left:90px;top:65px;transform:rotate(-30deg)"></div>
+            <div class="bond" style="width:22px;height:2px;left:112px;top:54px;transform:rotate(30deg)"></div>
+            <div class="bond" style="width:22px;height:2px;left:134px;top:65px;transform:rotate(0deg)"></div>
+            <!-- C=O side bonds -->
+            <div class="bond" style="width:18px;height:2px;left:55px;top:42px;transform:rotate(-70deg)"></div>
+            <div class="bond" style="width:18px;height:2px;left:100px;top:42px;transform:rotate(-70deg)"></div>
+            <!-- atoms -->
+            <div class="ball ball-N" style="width:28px;height:28px;left:6px;top:52px;font-size:.5rem">N</div>
+            <div class="ball ball-C" style="width:26px;height:26px;left:40px;top:53px;font-size:.5rem">C</div>
+            <div class="ball ball-O" style="width:22px;height:22px;left:44px;top:28px;font-size:.45rem">O</div>
+            <div class="ball ball-C" style="width:26px;height:26px;left:64px;top:53px;font-size:.5rem">C</div>
+            <div class="ball ball-N" style="width:28px;height:28px;left:86px;top:52px;font-size:.5rem">N</div>
+            <div class="ball ball-C" style="width:26px;height:26px;left:110px;top:53px;font-size:.5rem">C</div>
+            <div class="ball ball-O" style="width:22px;height:22px;left:114px;top:28px;font-size:.45rem">O</div>
+            <div class="ball ball-C" style="width:26px;height:26px;left:134px;top:53px;font-size:.5rem">C</div>
+            <div class="ball ball-C" style="width:20px;height:20px;left:138px;top:80px;font-size:.42rem">C</div>
+          </div>
+          <div class="mol-legend">
+            <div class="legend-item"><div class="legend-dot" style="background:#555"></div>C</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#3366cc"></div>N</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#cc0000"></div>O</div>
+          </div>
+          <p style="font-size:.65rem;color:var(--muted);margin-top:.4rem;text-align:center">Fragmento Gly-Ala-Gly-Ala</p>
+        </div>
+        <div class="mol-view" id="fib-2d">
+          <svg class="mol-svg" viewBox="0 0 260 110" xmlns="http://www.w3.org/2000/svg">
+            <!-- Gly-Ala-Gly-Ala fragment 2D -->
+            <text x="2" y="14" font-family="DM Mono,monospace" font-size="9" fill="#555">Fragmento de fibroína (Gly-Ala-Gly-Ala)</text>
+            <!-- backbone -->
+            <line x1="10" y1="65" x2="40" y2="65" stroke="#3366cc" stroke-width="1.5"/>
+            <line x1="40" y1="65" x2="65" y2="50" stroke="#555" stroke-width="1.5"/>
+            <line x1="65" y1="50" x2="65" y2="30" stroke="#cc0000" stroke-width="1.5"/>
+            <line x1="63" y1="50" x2="63" y2="30" stroke="#cc0000" stroke-width="1.5"/>
+            <line x1="65" y1="50" x2="95" y2="65" stroke="#555" stroke-width="1.5"/>
+            <line x1="95" y1="65" x2="120" y2="65" stroke="#3366cc" stroke-width="1.5"/>
+            <line x1="120" y1="65" x2="145" y2="50" stroke="#555" stroke-width="1.5"/>
+            <line x1="145" y1="50" x2="145" y2="30" stroke="#cc0000" stroke-width="1.5"/>
+            <line x1="143" y1="50" x2="143" y2="30" stroke="#cc0000" stroke-width="1.5"/>
+            <line x1="145" y1="50" x2="175" y2="65" stroke="#555" stroke-width="1.5"/>
+            <line x1="175" y1="65" x2="205" y2="65" stroke="#3366cc" stroke-width="1.5"/>
+            <line x1="145" y1="50" x2="145" y2="80" stroke="#555" stroke-width="1.5"/>
+            <!-- labels -->
+            <text x="2" y="62" font-family="DM Mono,monospace" font-size="9" fill="#3366cc">H₂N</text>
+            <text x="36" y="82" font-family="DM Mono,monospace" font-size="9" fill="#555">CH₂</text>
+            <text x="59" y="26" font-family="DM Mono,monospace" font-size="9" fill="#cc0000">O</text>
+            <text x="89" y="82" font-family="DM Mono,monospace" font-size="9" fill="#555">CH₂</text>
+            <text x="113" y="82" font-family="DM Mono,monospace" font-size="9" fill="#3366cc">NH</text>
+            <text x="138" y="26" font-family="DM Mono,monospace" font-size="9" fill="#cc0000">O</text>
+            <text x="138" y="95" font-family="DM Mono,monospace" font-size="9" fill="#555">CH₃</text>
+            <text x="196" y="62" font-family="DM Mono,monospace" font-size="9" fill="#3366cc">NH</text>
+            <text x="218" y="62" font-family="DM Mono,monospace" font-size="9" fill="#555">···</text>
+          </svg>
+        </div>
+      </div>
+
+      <div class="molecule-body">
+        <div class="mol-property">
+          <div class="mol-prop-label">Grupos funcionales</div>
+          <div class="mol-prop-value">Grupos <strong>amino</strong> (–NH₂), <strong>carboxilo</strong> (–COOH), <strong>enlaces peptídicos</strong> (–CO–NH–) a lo largo de la cadena y <strong>enlaces disulfuro</strong> (–S–S–) ocasionales.</div>
+        </div>
+        <div class="mol-property">
+          <div class="mol-prop-label">Polaridad</div>
+          <div class="mol-prop-value"><strong>Anfipática</strong>: presenta regiones <strong>hidrofílicas</strong> donde se encuentran aminoácidos como la serina, que establecen puentes de hidrógeno con el agua, y extensas regiones <strong>hidrofóbicas</strong> formadas por la repetición de glicina y alanina, que evitan el contacto con el agua. Predomina el carácter hidrofóbico debido a la alta abundancia de Gly y Ala en la secuencia.</div>
+        </div>
+        <div class="mol-property">
+          <div class="mol-prop-label">Solubilidad en agua</div>
+          <div class="mol-prop-value"><strong>Insoluble en estado natural</strong>. Las cadenas organizadas en β-hojas se mantienen unidas por <strong>puentes de hidrógeno</strong> interchain e <strong>interacciones hidrofóbicas</strong> que impiden la penetración del agua.</div>
+        </div>
+        <div class="mol-property">
+          <div class="mol-prop-label">Estructura</div>
+          <div class="mol-prop-value">Cadena pesada + ligera unidas por puentes disulfuro. Secuencia: <strong>Gly-Ala-Gly-Ala-Gly-Ser</strong>.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- METABOLISMO -->
+<section class="metabolismo-section" id="metabolismo">
+  <div class="section-header reveal">
+    <span class="section-num">04</span>
+    <h2 class="section-title">Metabolismo involucrado</h2>
+  </div>
+  <div class="metabolism-flow">
+    <div class="flow-step reveal">
+      <div class="flow-connector"><div class="flow-dot">1</div><div class="flow-line"></div></div>
+      <div class="flow-content">
+        <h4>Glucólisis → Síntesis de Serina y Glicina</h4>
+        <p>La serina se origina a partir del 3-fosfoglicerato (intermediario de la glucólisis). Luego se convierte en <strong>glicina</strong> mediante la serina hidroximetiltransferasa (gen <em>glyA</em>), conectando el metabolismo energético con la biosíntesis de aminoácidos.</p>
+      </div>
+    </div>
+    <div class="flow-step reveal">
+      <div class="flow-connector"><div class="flow-dot">2</div><div class="flow-line"></div></div>
+      <div class="flow-content">
+        <h4>Piruvato → Síntesis de Alanina</h4>
+        <p>La <strong>alanina</strong> se sintetiza a partir del piruvato por transaminación mediante la alanina aminotransferasa (ALT). El ciclo glucosa-alanina conecta el metabolismo muscular con el hepático, transportando nitrógeno para la gluconeogénesis.</p>
+      </div>
+    </div>
+    <div class="flow-step reveal">
+      <div class="flow-connector"><div class="flow-dot">3</div><div class="flow-line"></div></div>
+      <div class="flow-content">
+        <h4>Expresión génica de FibH en <em>E. coli</em></h4>
+        <p>El gen <strong>FibH</strong> se clona en un vector pET bajo el promotor T7 inducible por IPTG. Los ribosomas traducen el ARNm incorporando glicina y alanina de forma alternada en la secuencia <strong>Gly-Ala-Gly-Ala-Gly-Ser</strong>.</p>
+      </div>
+    </div>
+    <div class="flow-step reveal">
+      <div class="flow-connector"><div class="flow-dot">4</div><div class="flow-line"></div></div>
+      <div class="flow-content">
+        <h4>Plegamiento en láminas β</h4>
+        <p>La alternancia Gly-Ala promueve el <strong>plegamiento espontáneo en láminas β antiparalelas</strong>: la glicina permite el empaquetamiento compacto estabilizado por puentes de hidrógeno, mientras que la alanina consolida la estructura con interacciones hidrofóbicas.</p>
+      </div>
+    </div>
+    <div class="flow-step reveal">
+      <div class="flow-connector"><div class="flow-dot">5</div></div>
+      <div class="flow-content" style="padding-bottom:0">
+        <h4>Recuperación y purificación</h4>
+        <p>Tras la fermentación, las células se lisan y la fibroína se recupera. El principal reto es su tendencia a formar <strong>cuerpos de inclusión insolubles</strong>, que requieren agentes desnaturalizantes para su resolubilización y posterior replegamiento.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MEJORAS -->
+<section class="mejoras-section" id="mejoras">
+  <div class="section-header reveal">
+    <span class="section-num">05</span>
+    <h2 class="section-title">Limitaciones y mejoras del proceso</h2>
+  </div>
+  <div class="mejoras-grid">
+    <div class="problema-card reveal">
+      <div class="card-label">️ Problemas del proceso</div>
+      <div class="card-item"><div class="card-bullet"></div><p><strong>Acumulación de acetato:</strong> A altas densidades celulares, la limitación de oxígeno genera acetato, inhibiendo el crecimiento y reduciendo el rendimiento.</p></div>
+      <div class="card-item"><div class="card-bullet"></div><p><strong>Cuerpos de inclusión:</strong> La fibroína tiende a agregarse en formas insolubles, generando estrés celular y pérdida de material funcional.</p></div>
+      <div class="card-item"><div class="card-bullet"></div><p><strong>Carga metabólica del plásmido:</strong> El mantenimiento del plásmido compite por ATP y precursores, desviando recursos del crecimiento.</p></div>
+    </div>
+    <div class="solucion-card reveal">
+      <div class="card-label"> Estrategias de mejora</div>
+      <div class="card-item"><div class="card-bullet"></div><p><strong>Suplementación con serina:</strong> Aumentar el precursor de glicina en el medio mejora el rendimiento de la proteína.</p></div>
+      <div class="card-item"><div class="card-bullet"></div><p><strong>Fed-batch con control C/N:</strong> Alimentación controlada para mantener la relación carbono/nitrógeno óptima y reducir la acumulación de acetato.</p></div>
+      <div class="card-item"><div class="card-bullet"></div><p><strong>Ingeniería genética:</strong> Optimización de codones del gen FibH y sobreexpresión de <em>glyA</em> y <em>serA</em> para aumentar disponibilidad de glicina.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONCLUSIÓN -->
+<section class="conclusion-section">
+  <div class="section-header reveal">
+    <span class="section-num">06</span>
+    <h2 class="section-title">Conclusión</h2>
+  </div>
+  <p class="conclusion-text reveal">La producción biotecnológica de fibroína de seda en <em>Escherichia coli</em> evidencia cómo el metabolismo celular y la estructura molecular están profundamente interconectados. La disponibilidad de glicina y alanina, derivadas de rutas metabólicas centrales, determina directamente la cantidad y calidad de la fibroína sintetizada. Los principales obstáculos pueden abordarse mediante estrategias combinadas de ingeniería metabólica y optimización de las condiciones de fermentación.</p>
+  <div class="conclusion-quote reveal">La disponibilidad metabólica de glicina y alanina determina directamente la cantidad y calidad estructural de la fibroína resultado de seleccionar los aminoácidos más simples y accesibles para construir un material con propiedades mecánicas óptimas.</div>
+</section>
+
+<!-- REFS -->
+<section class="refs-section">
+  <div class="refs-title"> Referencias bibliográficas</div>
+  <div class="refs-list">
+    <div class="ref-item">Altman, G. H., Diaz, F., Jakuba, C., Calabro, T., Horan, R. L., Chen, J., Lu, H., Richmond, J., & Kaplan, D. L. (2003). Silk-based biomaterials. <em>Biomaterials</em>, <em>24</em>(3), 401–416. https://doi.org/10.1016/S0142-9612(02)00353-8</div>
+    <div class="ref-item">Alsuhybani, M. S., & Alosime, E. M. (2021). The effect of titanium tetra-butoxide catalyst on the olefin polymerization. <em>Polymers</em>, <em>13</em>(13), 2109. https://doi.org/10.3390/polym13132109</div>
+    <div class="ref-item">Baeshen, M. N., Al-Hejin, A. M., Bora, R. S., Ahmed, M. M. M., Ramadan, H. A. I., Saini, K. S., Baeshen, N. A., & Redwan, E. M. (2015). Production of biopharmaceuticals in E. coli: Current scenario and future perspectives. <em>Journal of Microbiology and Biotechnology</em>, <em>25</em>(7), 953–962. https://doi.org/10.4014/JMB.1412.12079</div>
+    <div class="ref-item">Guo, X., Zhang, H., Feng, J., Yang, L., Luo, K., Fu, H., & Wang, J. (2023). De novo biosynthesis of butyl butyrate in engineered <em>Clostridium tyrobutyricum</em>. <em>Metabolic Engineering</em>, <em>77</em>, 64–75. https://doi.org/10.1016/j.ymben.2023.03.009</div>
+    <div class="ref-item">Kundu, B., Rajkhowa, R., Kundu, S. C., & Wang, X. (2013). Silk fibroin biomaterials for tissue regenerations. <em>Advanced Drug Delivery Reviews</em>, <em>65</em>(4), 457–470. https://doi.org/10.1016/j.addr.2012.09.043</div>
+    <div class="ref-item">Locasale, J. W. (2013). Serine, glycine and one-carbon units: Cancer metabolism in full circle. <em>Nature Reviews Cancer</em>, <em>13</em>(8), 572–583. https://doi.org/10.1038/nrc3557</div>
+    <div class="ref-item">Metabolism of alanine. (s.f.). <em>Genesis MD</em>. Recuperado el 3 de mayo de 2026, de https://genesismd.org/courses/section-4-protein-metabolism/lessons/metabolism-of-alanine/</div>
+    <div class="ref-item">Nguyen, T. P., Nguyen, Q. V., Nguyen, V. H., Le, T. H., Huynh, V. Q. N., Vo, D. V. N., Trinh, Q. T., Kim, S. Y., & Van Le, Q. (2019). Silk fibroin-based biomaterials for biomedical applications: A review. <em>Polymers</em>, <em>11</em>(12), 1933. https://doi.org/10.3390/polym11121933</div>
+    <div class="ref-item">Singh, S. M., & Panda, A. K. (2005). Solubilization and refolding of bacterial inclusion body proteins. <em>Journal of Bioscience and Bioengineering</em>, <em>99</em>(4), 303–310. https://doi.org/10.1263/JBB.99.303</div>
+    <div class="ref-item">Vepari, C., & Kaplan, D. L. (2007). Silk as a biomaterial. <em>Progress in Polymer Science</em>, <em>32</em>(8–9), 991–1007. https://doi.org/10.1016/j.progpolymsci.2007.05.013</div>
+    <div class="ref-item">Wolfe, A. J. (2005). The acetate switch. <em>Microbiology and Molecular Biology Reviews</em>, <em>69</em>(1), 12–50. https://doi.org/10.1128/MMBR.69.1.12-50.2005</div>
+  </div>
+</section>
+
+<footer>
+  <p>Bioquímica · Universidad EIA · 2026-1</p>
+  <p>Lopera · López · Ortega · Vélez</p>
+</footer>
+
+<script>
+  function showView(mol, view, btn) {
+    // hide all views for this mol
+    document.querySelectorAll('[id^="'+mol+'-"]').forEach(el => {
+      el.classList.remove('active');
+    });
+    // deactivate tabs in same card
+    btn.closest('.mol-tabs').querySelectorAll('.mol-tab').forEach(t => t.classList.remove('active'));
+    // show selected
+    document.getElementById(mol+'-'+view).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  // scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
